@@ -1,0 +1,190 @@
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新增房屋</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css">
+<script src="https://js.arcgis.com/4.21/"></script>
+
+
+<h1 class="text-center">修改位置</h1>
+        
+<!-- 修改公告的表單 -->
+<form method="post" action="{% url 'modifyCatcoffee' point.id %}">
+    {% csrf_token %}
+    
+    <!-- 公告名稱 -->
+    <div class="mb-3" style="width: 600px;">
+        <label for="id_name" class="form-label">名稱</label>
+        <div>{{ form.name }}</div>
+    </div>
+
+        <div class="mb-3" style="width: 600px;">
+        <label for="id_name" class="form-label">地址</label>
+        <div>{{ form.address }}</div>
+    </div>
+
+    <!-- 公告內容 -->
+    <div class="mb-3" style="width: 600px;">
+        <label for="id_content" class="form-label">貓咪類型</label>
+        <div>{{ form.type }}</div>
+    </div>
+   <div class="mb-3" style="width: 600px;">
+        <label for="id_rate" class="form-label">價格</label>
+        <div>{{ form.rate }}</div>
+   {% include "manage/mapManage/tool/star.html" %}
+<!-- -->
+    </div>
+    <!-- 發佈人 -->
+    <div class="mb-3" style="width: 600px;">
+        <label for="id_owner" class="form-label">評論</label>
+        <div>{{ form.comments }} </div>
+    </div>
+
+
+   <!-- 地圖顯示區域 -->
+   <div class="col-8" id="map" style="height: 400px; margin-bottom: 15px;"></div>
+
+   <!-- 隱藏的經緯度輸入字段 -->
+
+   <input type="hidden" id="id_location" name="location" value="{{ form.location.value }}" class="form-control">
+<!-- 
+   <input type="hidden" id="id_location" name="location"> -->
+
+
+    <!-- 提交和返回按鈕 -->
+    <div style="width: 600px;">
+        <button type="submit" class="btn btn-primary save" >保存更改</button>
+        <a href="{% url 'catCoffee' %}" class="btn btn-secondary">返回</a>
+    </div>
+</form>
+{% load static %}
+<script>
+
+
+
+
+    require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/WMSLayer",
+        "esri/geometry/SpatialReference",
+        "esri/geometry/Extent",
+        "esri/widgets/ScaleBar",
+        "esri/Graphic",
+        "esri/geometry/Point",
+            "esri/symbols/PictureMarkerSymbol"
+    ], function(Map, MapView, WMSLayer, SpatialReference, Extent, ScaleBar, Graphic,Point,PictureMarkerSymbol) {
+        // 設置空間參考
+        var spatialReference = new SpatialReference({ wkid: 3826 });
+
+        // 初始化地圖範圍
+        var initialExtent = new Extent({
+            xmin: 167800,
+            ymin: 2488584,
+            xmax: 220860,
+            ymax: 2511150,
+            spatialReference: spatialReference
+        });
+
+        // 創建地圖對象
+        var map = new Map({ basemap: null });
+
+        // 初始化 MapView
+        var view = new MapView({
+            container: "map",
+            map: map,
+            extent: initialExtent,
+            spatialReference: spatialReference,
+            logo: false
+        });
+
+        // 定義 WMS 圖層
+        var wmsLayer = new WMSLayer({
+            url: "https://wms.nlsc.gov.tw/wms",
+            sublayers: [
+                {
+                    name: "EMAP",
+                    title: "臺灣通用電子地圖"
+                }
+            ],
+            opacity: 1.0,
+            visible: true
+        });
+
+        // 將 WMS 圖層添加到地圖
+        map.add(wmsLayer);
+
+        // 添加比例尺
+        var scalebar = new ScaleBar({ view: view, unit: "metric" });
+        view.ui.add(scalebar, { position: "bottom-left" });
+
+        // 點擊事件，用於選擇位置
+        // var markerSymbol = {
+        //     type: "simple-marker",
+        //     color: "red",
+        //     size: "12px",
+        //     outline: {
+        //         color: "black",
+        //         width: 1
+        //     }
+        // };
+
+        var markerSymbol = new PictureMarkerSymbol({
+  url: "{% static 'images/11.png' %}", // 使用 Django 的静态文件路径
+  width: "28px",
+  height: "36px",
+  yoffset: 16, // 垂直偏移量，将图标底部对齐到点位置（高度的一半）
+  anchor: "bottom" // 锚点设置为底部
+});
+//
+var initialLocation = "{{ form.location.value|default:'' }}";
+var coords = initialLocation.replace('POINT(', '').replace('(', '').replace(')', '').split(' ');
+            var x = parseFloat(coords[1]);
+            var y = parseFloat(coords[2]);
+var point = new Point({
+                x: x,
+                y: y,
+                spatialReference: spatialReference
+            });
+
+            var pointGraphic = new Graphic({
+                geometry: point,
+                symbol: markerSymbol
+            });
+
+            view.graphics.add(pointGraphic); // 添加新標記
+
+            view.goTo({
+                    target: point,
+                    scale: 500 // 示例比例尺
+                });
+
+console.log(coords)
+
+
+        view.on("click", function(event) {
+            console.log( event.mapPoint.x,)
+            view.graphics.removeAll(); // 移除現有標記
+
+            var point = new Point({
+                x: event.mapPoint.x,
+                y: event.mapPoint.y,
+                spatialReference: spatialReference
+            });
+
+            var pointGraphic = new Graphic({
+                geometry: point,
+                symbol: markerSymbol
+            });
+
+            view.graphics.add(pointGraphic); // 添加新標記
+
+           // 確保 `location` 字段接收正確的坐標值
+var locationValue = `POINT(${event.mapPoint.x} ${event.mapPoint.y})`;
+console.log("選擇的坐標為:", locationValue);
+document.getElementById("id_location").value = locationValue;
+
+        });
+    });
+</script>

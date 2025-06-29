@@ -1,0 +1,20 @@
+FROM ghcr.io/osgeo/gdal:alpine-normal-latest
+
+ENV PYTHONUNBUFFERED=1
+RUN mkdir /app
+WORKDIR /app
+
+RUN apk add --no-cache uwsgi-python3 python3 py3-pip postgresql-client geos
+
+COPY requirements.txt /app/requirements.txt
+RUN python3 -m venv /app/venv
+RUN /app/venv/bin/pip install -r requirements.txt
+
+COPY . /app
+
+# 暴露端口
+EXPOSE 8000
+
+# 启动 Django 服务
+ENTRYPOINT  ["uwsgi", "-i", "uwsgi.ini"]
+

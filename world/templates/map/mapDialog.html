@@ -1,0 +1,172 @@
+<style>
+    dialog {
+      position: absolute;
+    left:35%;
+      border: 2px solid #888;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+      top: 100px;
+      margin: 0;
+      padding: 0;
+    }
+@media (max-width: 992px) {
+   dialog {
+    position: absolute;
+   left:0;
+   }
+}
+
+    .dialog-header {
+      cursor: move;
+      background-color: #AD8B73;
+      margin: 0;
+      text-align: center;
+      font-weight: bold;
+      cursor: move;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content:space-between;
+    }
+
+</style>
+
+
+
+
+<dialog id="MapDialog" style= "width: 500px;height: 450px; z-index:103" >
+     <div class="d-flex" style=" background-color: #AD8B73;">
+    <div class="dialog-header" style= "width: 100%;height: 50px;">
+      <div  id="MapDialogTitle"  style="margin: 10px;color: white;font-size: 25px;">圖層管理</div>
+
+
+    </div>
+         <button id="MapX" class="d-none d-lg-block" style="
+        margin:5px;
+        background: white;
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+"
+        onclick="closeMapDialog()"
+        >&times;
+        </button>
+         </div>
+<!--    <p style="margin: 10px 0 0 10px;">圖層清單</p>-->
+
+    {% include "map/mapDialogTemplate/Annoncement.html" %}
+            {% include "map/mapDialogTemplate/LayerList.html" %}
+          {% include "map/mapDialogTemplate/searchDataList.html" %}
+        {% include "map/mapDialogTemplate/Analysis.html" %}
+
+    <button class="btn btn-danger d-flex d-lg-none mx-auto mb-0" onclick="closeMapDialog()">關閉</button>
+  </dialog>
+<script>
+
+
+
+function openMapDialog() {
+  const dialog = document.getElementById("MapDialog");
+  dialog.show();
+}
+
+function closeMapDialog() {
+  const dialog = document.getElementById("MapDialog");
+  dialog.close();
+}
+
+// MapDialog 的拖動功能
+function makeMapDialogDraggable() {
+  const MapDialog = document.getElementById("MapDialog");
+  const MapHeader = MapDialog.querySelector(".dialog-header");
+  const MapHeaderHeight = document.getElementById("header").offsetHeight;
+  let MapIsDragging = false;
+  let MapOffsetX = 0;
+  let MapOffsetY = 0;
+
+
+
+ MapHeader.addEventListener("mousedown", (e) => {
+    MapIsDragging = true;
+    const MapRect = MapDialog.getBoundingClientRect();
+   MapOffsetX = e.clientX - MapRect.left;
+    MapOffsetY = e.clientY - MapRect.top;
+    e.preventDefault();
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (MapIsDragging) {
+      const newX = e.clientX -MapOffsetX;
+      const newY = e.clientY - MapOffsetY;
+      const MapMaxLeft = window.innerWidth - MapDialog.offsetWidth;
+      const MapMaxTop = window.innerHeight - MapDialog.offsetHeight;
+      const MapMinTop = MapHeaderHeight;
+      MapDialog.style.left = `${Math.min(Math.max(0, newX), MapMaxLeft)}px`;
+      MapDialog.style.top = `${Math.min(Math.max(MapMinTop, newY), MapMaxTop)}px`;
+
+    }
+  });
+
+  document.addEventListener("mouseup", () => {
+    MapIsDragging = false;
+  });
+
+  MapHeader.addEventListener("touchstart", (e) => {
+    MapIsDragging = true;
+    const  MapRect =  MapDialog.getBoundingClientRect();
+      const touch = e.touches[0];
+     MapOffsetX = touch.clientX -  MapRect.left;
+     MapOffsetY = touch.clientY -  MapRect.top;
+    e.preventDefault();
+  });
+
+  document.addEventListener("touchmove", (e) => {
+
+    if ( MapIsDragging) {
+       const touch = e.touches[0];
+      const newX = touch.clientX -  MapOffsetX;
+      const newY = touch.clientY -  MapOffsetY;
+      const  MapMaxLeft = window.innerWidth -  MapDialog.offsetWidth;
+      const  MapMaxTop = window.innerHeight -  MapDialog.offsetHeight;
+      const MapMinTop = MapHeaderHeight;
+      MapDialog.style.left = `${Math.min(Math.max(0, newX), MapMaxLeft)}px`;
+      MapDialog.style.top = `${Math.min(Math.max(MapMinTop, newY), MapMaxTop)}px`;
+
+    }
+  });
+
+  document.addEventListener("touchend", () => {
+    MapIsDragging = false;
+  });
+
+}
+
+
+makeMapDialogDraggable()
+
+
+
+function limitMapWindow() {
+    const myDiv = document.getElementById("myDiv");
+    if (window.innerWidth <992) {
+
+       MapDialog.style.left = `0`;
+        MapDialog.style.top = `0`;
+         MapDialog.style.height='100%'
+          MapDialog.style.width='100%'
+          $("#MapX").hide()
+
+    }
+    else{
+      MapDialog.style.height=' 450px'
+         MapDialog.style.left = `35%`;
+        MapDialog.style.top = `30%`;
+         MapDialog.style.width='500px'
+    }
+}
+
+window.addEventListener('load', limitMapWindow);
+window.addEventListener('resize', limitMapWindow)
+
+</script>

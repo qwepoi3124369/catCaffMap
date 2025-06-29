@@ -1,0 +1,65 @@
+
+<style>
+    #searchDataListDialog{
+    height:90%
+    }
+  @media screen and (max-width: 875px) {
+   #searchDataListDialog{
+  height:70%
+    }
+  }
+</style>
+
+
+<div id="searchDataListDialog" class="MapDialogItem  mx-2 my-1" >
+
+    <div  class="d-flex flex-column h-100">
+<h4 >查詢到資料</h4>
+        <div class="border border-2  my-2" style="overflow-y: auto; height=90%">
+        <table class="table table-bordered border-3 w-100 mx-auto" >
+ <thead>
+            <tr>
+                <th>編號</th>
+                   <th>名稱</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="dataList" >
+
+        </tbody>
+        </table>
+            </div>
+
+<select id="SearchDatapage">
+    <option >1</option>
+        <option >2</option>
+        <option>3</option>
+</select>
+
+
+    </div>
+    </div>
+
+<script>
+            function showSearchDataList()
+{
+$("#MapDialogTitle").text("查詢到資料")
+$(".MapDialogItem").hide()
+$("#searchDataListDialog").show()
+}
+
+<!--$("#SearchDatapage").change(function(){-->
+<!--let changePage= $("#SearchDatapage").val()-->
+<!--bufferData.page = changePage-->
+<!--  $.ajax({-->
+<!--        type: "post",-->
+<!--        url: "/buffer/",-->
+<!--        data: bufferData,-->
+<!--        headers: { "X-CSRFToken": getCsrfToken() }, // 添加 CSRF token-->
+<!--        dataType: "json",-->
+<!--        success: function (response) {-->
+<!-- CreateSearchData()-->
+<!--        }-->
+<!--})-->
+<!--})-->
+</script>

@@ -1,0 +1,59 @@
+<div style="display: flex;flex-direction: row; justify-content: space-between;"><h1>公告列表</h1><a href="announcementsAdd" class="btn btn-primary" style="display: flex; align-items: center;justify-content: center;">新增公告</a></div>
+{% if announcements %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>名稱</th>
+                <th>內容</th>
+                <th>發布時間</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for announcement in announcements %}
+                <tr>
+                    <td>{{ announcement.name }}</td>
+                    <td>{{ announcement.content }}</td>
+                    <td>{{ announcement.created_at }}</td>
+                    <td><a href="announcementsModify/{{ announcement.id }}" class="btn btn-primary" style="margin-right: 5px;">修改</a><button onclick="deleteAnnouncement({{ announcement.id }})" class="btn btn-danger">刪除</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination" style="display: flex;align-items: center;justify-content: center;">
+            {% if announcements.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ announcements.previous_page_number }}">上一頁</a></li>
+            {% endif %}
+            <li class="page-item active"><span class="page-link">第 {{ announcements.number }} 頁，共 {{ announcements.paginator.num_pages }} 頁</span></li>
+            {% if announcements.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ announcements.next_page_number }}">下一頁</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% else %}
+    <p>目前沒有公告。</p>
+{% endif %}
+
+
+<script>
+function deleteAnnouncement(announcementId) {
+if (confirm('確定要刪除此公告嗎？')) {
+$.ajax({
+    url: `/delete_announcement/${announcementId}/`,
+    type: 'POST',
+    headers: {
+        'X-CSRFToken': '{{ csrf_token }}'  // 確保包含 CSRF token 跨站請求偽造防範
+    },
+    success: function(response) {
+        alert('刪除成功');
+        location.reload();  // 刷新頁面以更新公告列表
+    },
+    error: function(xhr) {
+        alert('刪除失敗：' + xhr.statusText);
+    }
+});
+}
+}
+</script>
+

@@ -1,0 +1,30 @@
+<h1 class="text-center">修改公告</h1>
+        
+<!-- 修改公告的表單 -->
+<form method="post" action="{% url 'announcement_modify' announcement.id %}" style="display: flex;flex-direction: column; align-items: center;justify-content: center;">
+    {% csrf_token %}
+    
+    <!-- 公告名稱 -->
+    <div class="mb-3" style="width: 600px;">
+        <label for="id_name" class="form-label">公告名稱</label>
+        <div>{{ form.name }}</div>
+    </div>
+
+    <!-- 公告內容 -->
+    <div class="mb-3" style="width: 600px;">
+        <label for="id_content" class="form-label">公告內容</label>
+        <div>{{ form.content }}</div>
+    </div>
+
+    <!-- 發佈人 -->
+    <div class="mb-3" style="width: 600px;">
+        <label for="id_owner" class="form-label">發佈人</label>
+        <div>{{ form.owner }} </div>
+    </div>
+
+    <!-- 提交和返回按鈕 -->
+    <div style="width: 600px;">
+        <button type="submit" class="btn btn-primary">保存更改</button>
+        <a href="{% url 'announcement' %}" class="btn btn-secondary">返回</a>
+    </div>
+</form>

@@ -1,0 +1,33 @@
+services:
+  web:
+    container_name: mycat  # ← 這是你指定的名字
+    image: cat-web:latest
+    ports:
+      - "823:8000"
+    depends_on:
+      - db
+  db:
+    container_name: catDB
+    image: postgis/postgis:17-3.4
+    environment:
+      - POSTGRES_DB=catcoffee
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=3124369
+    ports:
+      - "5433:5432"  # 外部可用 localhost:5433 連線
+    volumes:
+      - postgis_data:/var/lib/postgresql/data  # 持久化資料
+  nginx:
+    container_name: nginx_proxy
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # 你自訂的 nginx.conf
+      - ./static:/app/static  # 可選：掛載靜態檔案
+    depends_on:
+      - web
+
+volumes:
+  postgis_data:
+

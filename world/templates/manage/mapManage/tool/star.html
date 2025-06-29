@@ -1,0 +1,159 @@
+    <div class="d-flex starBox">
+      <div class='star1 NoStar1 NoStar'>
+        <span class="fs-1  ">☆</span>
+      </div>
+      <div class=" star1 ShowStar1 ShowStar" style="display:none">
+        <span class="fs-1" >★</span>
+      </div>
+                         <div class='star2 NoStar2 NoStar'>
+        <span class="fs-1  ">☆</span>
+      </div>
+      <div class=" star2 ShowStar2 ShowStar" style="display:none">
+        <span class="fs-1" >★</span>
+      </div>
+    <div class='star3 NoStar3 NoStar'>
+        <span class="fs-1  ">☆</span>
+      </div>
+      <div class=" star3 ShowStar3 ShowStar" style="display:none">
+        <span class="fs-1" >★</span>
+      </div>
+                         <div class='star4 NoStar4 NoStar'>
+        <span class="fs-1  ">☆</span>
+      </div>
+      <div class=" star4 ShowStar4 ShowStar" style="display:none">
+        <span class="fs-1" >★</span>
+      </div>
+                         <div class='star5 NoStar5 NoStar'>
+        <span class="fs-1  ">☆</span>
+      </div>
+      <div class=" star5 ShowStar5 ShowStar" style="display:none">
+        <span class="fs-1" >★</span>
+      </div>
+    </div>
+
+
+<script>
+let rating=$("#rate").val()
+console.log(rating)
+    switch (rating) {
+    case '1':
+   $(".NoStar").show()
+$(".ShowStar").hide()
+$(".NoStar1").hide()
+$(".ShowStar1").show()
+      break;
+    case '2':
+    $(".NoStar").show()
+$(".ShowStar").hide()
+$(".NoStar1").hide()
+$(".ShowStar1").show()
+$(".NoStar2").hide()
+$(".ShowStar2").show()
+      break;
+          case '3':
+    $(".NoStar").show()
+$(".ShowStar").hide()
+$(".NoStar1").hide()
+$(".ShowStar1").show()
+$(".NoStar2").hide()
+$(".ShowStar2").show()
+$(".NoStar3").hide()
+$(".ShowStar3").show()
+      break;
+                case '4':
+    $(".NoStar").show()
+$(".ShowStar").hide()
+$(".NoStar1").hide()
+$(".ShowStar1").show()
+$(".NoStar2").hide()
+$(".ShowStar2").show()
+$(".NoStar3").hide()
+$(".ShowStar3").show()
+$(".NoStar4").hide()
+$(".ShowStar4").show()
+      break;
+               case '5':
+    $(".NoStar").show()
+$(".ShowStar").hide()
+$(".NoStar1").hide()
+$(".ShowStar1").show()
+$(".NoStar2").hide()
+$(".ShowStar2").show()
+$(".NoStar3").hide()
+$(".ShowStar3").show()
+$(".NoStar4").hide()
+$(".ShowStar4").show()
+$(".NoStar5").hide()
+$(".ShowStar5").show()
+      break;
+        default:
+      console.log("無評分");
+}
+
+$(".star1").click(
+function(){
+$("#rate").val(1)
+$(".NoStar").show()
+$(".ShowStar").hide()
+$(".NoStar1").hide()
+$(".ShowStar1").show()
+}
+)
+$(".star2").click(
+function(){
+$("#rate").val(2)
+$(".NoStar").show()
+$(".ShowStar").hide()
+$(".NoStar1").hide()
+$(".ShowStar1").show()
+$(".NoStar2").hide()
+$(".ShowStar2").show()
+}
+)
+$(".star3").click(
+function(){
+$("#rate").val(3)
+$(".NoStar").show()
+$(".ShowStar").hide()
+$(".NoStar1").hide()
+$(".ShowStar1").show()
+$(".NoStar2").hide()
+$(".ShowStar2").show()
+$(".NoStar3").hide()
+$(".ShowStar3").show()
+}
+)
+$(".star4").click(
+function(){
+$("#rate").val(4)
+$(".NoStar").show()
+$(".ShowStar").hide()
+$(".NoStar1").hide()
+$(".ShowStar1").show()
+$(".NoStar2").hide()
+$(".ShowStar2").show()
+$(".NoStar3").hide()
+$(".ShowStar3").show()
+$(".NoStar4").hide()
+$(".ShowStar4").show()
+}
+)
+$(".star5").click(
+function(){
+$("#rate").val(5)
+$(".NoStar").show()
+$(".ShowStar").hide()
+$(".NoStar1").hide()
+$(".ShowStar1").show()
+$(".NoStar2").hide()
+$(".ShowStar2").show()
+$(".NoStar3").hide()
+$(".ShowStar3").show()
+$(".NoStar4").hide()
+$(".ShowStar4").show()
+$(".NoStar5").hide()
+$(".ShowStar5").show()
+}
+)
+
+</script>

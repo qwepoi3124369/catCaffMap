@@ -1,0 +1,38 @@
+
+# 使用 Miniconda 基础镜像
+FROM continuumio/miniconda3:latest
+
+# 设置工作目录
+WORKDIR /geodjango
+
+
+# 复制 environment.yml 文件
+COPY environment.yml .
+
+# 设置 Conda channels 并创建环境
+# 安裝 Python 和核心依賴
+RUN conda config --add channels conda-forge && \
+    conda config --add channels defaults && \
+    conda env create -f environment.yml && \
+    conda clean -afy
+
+
+
+# 设置路径和 GDAL 库路径
+ENV PATH=/opt/conda/envs/geoDjangoMapTest/bin:$PATH
+ENV CONDA_DEFAULT_ENV=geoDjangoMapTest
+
+
+# 更新 pip 并安装 Python 依赖
+RUN pip install --upgrade pip
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# 复制项目文件
+COPY . .
+
+# 暴露端口
+EXPOSE 8000
+
+# 启动 Django 服务
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

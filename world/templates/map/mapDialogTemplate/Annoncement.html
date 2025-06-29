@@ -1,0 +1,39 @@
+<div id="AnoumcementDialog" class="MapDialogItem">
+       <div class="w-100 row m-0">
+<table class="table col-10 mx-auto mt-4">
+         <thead>
+    <tr>
+      <th style="width:15%"  class="text-center">編號</th>
+      <th style="width:50%"  class="text-center">公告內容</th>
+      <th style="width:30%"  class="text-center">公告時間</th>
+    </tr>
+  </thead>
+  <tbody>
+            {% for Announcements in Announcements %}
+  <tr>
+      <th class="text-center">{{ forloop.counter }}</th>
+      <td>{{Announcements.name}}</td>
+      <td class="text-center">{{Announcements.created_at|date:"Y-m-d"}}</td>
+    </tr>
+      {% endfor %}
+  </tbody>
+
+
+</table>
+
+
+       </div>
+<!--          {% for Announcements in Announcements %}-->
+
+<!--<div>{{Announcements.name}}</div>-->
+<!--      {% endfor %}-->
+</div>
+
+<script>
+        function showAnoumcement()
+{
+$("#MapDialogTitle").text("公告")
+$(".MapDialogItem").hide()
+$("#AnoumcementDialog").show()
+}
+</script>

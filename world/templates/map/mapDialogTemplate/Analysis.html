@@ -1,0 +1,163 @@
+ <style>
+
+        .sidebar {
+            min-width: 100px;
+            max-width: 100px;
+
+            background-color: #AD8B73;
+            color: #fff;
+        }
+        .sidebar  button {
+          background-color: #AD8B73;
+            color: #ddd;
+            text-decoration: none;
+            border:0;
+            display: block;
+            padding: 10px;
+                color: white;
+        }
+        .sidebar button:hover {
+            background-color: #E3CAA5;
+                color: black;
+        }
+        .sidebar .submenu {
+            display: none;
+            background-color: #035c0c;
+            padding-left: 20px;
+        }
+        .sidebar .submenu a {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+        .content {
+            flex: 1;
+            padding: 5px;
+        }
+        #AnalysisDialog{
+    height:80%
+    }
+  @media screen and (max-width: 875px) {
+   #AnalysisDialog{
+  height:70%
+    }
+  }
+    </style>
+<div id="AnalysisDialog" class="MapDialogItem   mx-2 my-2 border border-dark" >
+    <div  class="d-flex h-100">
+     <div class="sidebar">
+        <nav>
+            <button  class="w-100" onclick="toggleAnalysis('buffer')">環域分析</button>
+            <button  class="w-100" onclick="toggleAnalysis('attributeSearch')">屬性查詢</button>
+<!--            <a href="#" onclick="toggleAnalysis('settings-submenu')">系統</a>-->
+
+        </nav>
+    </div>
+    <div class="content overflow-auto">
+        <div id="buffer" class="mt-1 mx-1 AnalysisType">
+
+            <h4 class="mb-3">環域分析</h4>
+<!--            <div>-->
+<!--    <div>查詢圖層:</div>-->
+<!--<select  class="col-10">-->
+<!--    <option>-->
+<!--        貓咪咖啡廳-->
+<!--    </option>-->
+<!--</select>-->
+<!--</div>-->
+<div class="ms-1">
+    <div>環域範圍(公尺):</div>
+<input type="number" min="1" class="col-10" step="500" id="bufferDistance" value="500">
+</div>
+            <div class="col-12  my-2 d-flex align-items-center justify-content-center">
+<button class="btn btn-danger" id="startBuffer">進行查詢</button>
+
+</div>
+
+
+        </div>
+        <div id="attributeSearch" class="mt-1 mx-1 AnalysisType" style="display:none">
+     <h4 class="mb-3">屬性查詢</h4>
+<div class="row m-0">
+    <div class="col-12 d-flex mb-3">
+    <label class="ms-1" for="name">名稱：</label>
+    <input  type="text" id="nameAttribute" name="name" class="py-1  col-8 ms-1 border-1">
+    </div>
+    <div class="col-12 col-md-7 d-flex mb-3">
+    <label class="ms-1" for="type">貓品種：</label>
+  <select  id="typeAttribute" name="type">
+          <option value="all" selected>不拘</option>
+</select>
+        </div>
+    <div class="col-12 col-md-5 d-flex mb-3">
+    <label class="ms-1" for="district">位置：</label>
+<select id="districtAttribute" name="district">
+        <option value="all" selected>所有</option>
+    <option value="鹽埕區">鹽埕區</option>
+    <option value="前金區">前金區</option>
+</select>
+        </div>
+        <div class="col-12 d-flex mb-3">
+<label class="ms-1" for="rate">評分：</label>
+            <div class="ms-1 row col-7 col-md-9">
+<input class="col-12 col-md-5 price m-0 border-1" type="number" id="minRateAttribute" min="0" name="minRate" placeholder="最小評分" step="1" >
+                <p class="m-0 p-0 col-12 col-md-1 text-center">-</p>
+<input  class="col-12 col-md-5   price m-0 border-1" type="number" id="maxRateAttribute" min="0" name="maxRate" placeholder="最大評分" step="1">
+             </div>
+               </div>
+
+
+
+    <div class="col-12 d-flex align-items-center justify-content-center">
+        <button class=" btn btn-danger" type="button" id="Searchattribute">提交</button>
+</div>
+    </div>
+        </div>
+
+
+        </div>
+    </div>
+   </div>
+
+<script>
+
+
+
+
+   let choices = [
+    '混合', '短毛貓', '長毛貓', '波斯貓', '英國短毛貓', '美國短毛貓',
+    '緬因貓', '俄羅斯藍貓', '蘇格蘭折耳貓', '布偶貓', '孟加拉貓',
+    '加菲貓', '暹羅貓', '埃及貓', '挪威森林貓',
+    '喜馬拉雅貓', '狸花貓', '曼赤肯貓', '無毛貓','米克斯'
+]
+
+choices.forEach(cat => {
+    $("#typeAttribute").append(`<option value="${cat}">${cat}</option>`);
+});
+
+
+
+
+        function showAnalysis()
+{
+$("#MapDialogTitle").text("分析查詢")
+$(".MapDialogItem").hide()
+$("#AnalysisDialog").show()
+}
+
+    function toggleAnalysis(type)
+{
+switch (type) {
+  case "buffer":
+$(".AnalysisType").hide()
+$("#buffer").show()
+    break;
+  case "attributeSearch":
+  $(".AnalysisType").hide()
+  $("#attributeSearch").show()
+    break;
+  default:
+    console.log(`error`);
+}
+
+}
+</script>

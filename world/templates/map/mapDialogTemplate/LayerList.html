@@ -1,0 +1,120 @@
+<style>
+       #sortable {
+    list-style: none;
+    margin: 10px;
+    padding: 0;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+
+  #sortable li {
+    margin: 5px;
+    padding: 10px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  #sortable li.ui-state-highlight {
+    height: 1.5em;
+    line-height: 1.5em;
+    background: #fafafa;
+    border: 1px dashed #ccc;
+  }
+
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+}
+
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 1px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+        #LayerListDialog{
+    height:90%
+    }
+  @media screen and (max-width: 875px) {
+   #LayerListDialog{
+  height:70%
+    }
+  }
+</style>
+
+
+<div id="LayerListDialog" class="MapDialogItem my-1 overflow-auto" >
+  <ul id="sortable">
+
+    <li id="clusterLayer" class="ui-state-default" style="display: flex; flex-direction: row; justify-content: space-between; align-items:center;">
+      <div>貓咪咖啡廳</div>
+      <label class="switch">
+          <input type="checkbox" checked id="toggleWmsLayer2">
+          <span class="slider round"></span>
+      </label>
+  </li>
+  <li id="kaohsiungLayer" class="ui-state-default" style="display: flex; flex-direction: row; justify-content: space-between; align-items:center;">
+    <div>高雄區界</div>
+    <label class="switch">
+        <input type="checkbox" checked id="toggleWmsLayer3">
+        <span class="slider round"></span>
+    </label>
+</li>
+
+
+
+</ul>
+
+</div>
+<script>
+    function showLayerList()
+{
+$("#MapDialogTitle").text("圖層清單")
+$(".MapDialogItem").hide()
+$("#LayerListDialog").show()
+}
+</script>

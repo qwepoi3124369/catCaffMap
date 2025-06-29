@@ -1,0 +1,11 @@
+docker run --name my-nginx `
+  -p 443:443 -p 8080:80 `
+  -v "D:\project\python\ssl:/etc/nginx/ssl:ro" `
+  -v "D:\project\python\geodjango\static:/app/static" `
+  -v "D:\project\python\備份:/etc/nginx/conf.d:ro" `
+  --link mygeodjango:mygeodjango `
+  -d nginx:latest
+
+
+docker save -o my_image.tar my_image_name
+

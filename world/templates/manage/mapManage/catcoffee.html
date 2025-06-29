@@ -1,0 +1,133 @@
+<style>
+        #name {
+    width: 130px; /* 設定輸入框的寬度 */
+}
+    .price {
+    width: 100px; /* 設定輸入框的寬度 */
+}
+</style>
+
+<div style="display: flex;flex-direction: row; justify-content: space-between;"><h1>貓咪咖啡廳</h1>
+    <a href="addCatcoffee" class="btn btn-primary" style="display: flex; align-items: center;justify-content: center;">新增公告</a></div>
+<div class="my-2">
+    <div class="fs-4 my-1">查詢條件:</div>
+<form method="post">
+    {% csrf_token %}
+    <label for="name">名稱：</label>
+    <input type="text" id="name" name="name">
+    <label class="ms-3" for="type">貓咪種類：</label>
+  <select id="type" name="type">
+          <option value="all" selected>不拘</option>
+    <option value="短毛貓">短毛貓</option>
+    <option value="長毛貓">長毛貓</option>
+    <option value="波斯貓">波斯貓</option>
+    <option value="暹羅貓">暹羅貓</option>
+</select>
+    <label for="district">所在行政區：</label>
+<select id="district" name="district">
+        <option value="all" selected>所有</option>
+    <option value="鹽埕區">鹽埕區</option>
+    <option value="前金區">前金區</option>
+</select>
+<label class="ms-3" for="rate">評分範圍：</label>
+<input class="rate" type="number" id="minRate" name="minRate" placeholder="最小評分" step="1" min="1" max="5"> -
+<input  class="rate"type="number" id="maxRate" name="maxRate" placeholder="最大評分" step="1" min="1" max="5">
+    <button class="ms-3 btn btn-primary" type="submit">提交</button>
+</form>
+</div>
+{% if points %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>名稱</th>
+                <th>地址</th>
+                <th>貓咪種類</th>
+                     <th>評分</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for point in points %}
+                <tr>
+                    <td>{{ point.name }}</td>
+                      <td>{{ point.address }}</td>
+                    <td>{{ point.type }}</td>
+                    <td>{{ point.rate }}</td>
+                    <td><a href="{% url 'modifyCatcoffee' point.id%}" class="btn btn-primary" style="margin-right: 5px;">修改</a><button onclick="deleteItem({{ point.id }})" class="btn btn-danger">刪除</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination" style="display: flex;align-items: center;justify-content: center;">
+            {% if points.has_previous %}
+                <li class="page-item"><a class="page-link" href="?{{ request.GET.urlencode }}&page={{ points.previous_page_number }}">上一頁</a></li>
+            {% endif %}
+            <li class="page-item active"><span class="page-link">第 {{ points.number }} 頁，共 {{ points.paginator.num_pages }} 頁</span></li>
+            {% if points.has_next %}
+                <li class="page-item"><a class="page-link" href="?{{ request.GET.urlencode }}&page={{ points.next_page_number }}">下一頁</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% else %}
+    <p>目前沒有公告。</p>
+{% endif %}
+
+
+<script>
+    $(document).ready(function () {
+    let params = new URLSearchParams(window.location.search);
+
+    let name = params.get("name");
+    $("#name").val(name)
+    let type = params.get("type");
+    $("#type").val(type)
+    if($("#type").val()==null){
+     $("#type").val("all")
+    }
+
+    let minRate = params.get("minRate");
+    $("#minRate").val(minRate)
+    let maxRate = params.get("maxRate");
+    $("#maxRate").val(maxRate)
+    let district = params.get("district");
+    $("#district").val(district)
+      if($("#district").val()==null){
+     $("#district").val("all")
+    }
+
+});
+
+$(document).ready(function () {
+    $("form").on("submit", function (event) {
+        let minRate = parseInt($("#minRate").val(), 10);
+        let maxRate = parseInt($("#maxRate").val(), 10);
+
+        if (!isNaN(minRate) && !isNaN(maxRate) && maxRate < minRate) {
+            alert("最大評分必須大於或等於最小評分！");
+            event.preventDefault(); // 阻止表單提交
+        }
+    });
+});
+
+
+function deleteItem(Id) {
+if (confirm('確定要刪除此資料嗎？')) {
+$.ajax({
+    url: `/deleteCatcoffee/${Id}/`,
+    type: 'POST',
+    headers: {
+        'X-CSRFToken': '{{ csrf_token }}'  // 確保包含 CSRF token 跨站請求偽造防範
+    },
+    success: function(response) {
+        alert('刪除成功');
+        location.reload();  // 刷新頁面以更新公告列表
+    },
+    error: function(xhr) {
+        alert('刪除失敗：' + xhr.statusText);
+    }
+});
+}
+}
+</script>
+

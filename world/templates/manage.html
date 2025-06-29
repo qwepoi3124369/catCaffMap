@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貓咖地圖後台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            height:100vh
+            min-height: 100vh;
+        }
+        .sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background-color: #AD8B73;
+            color: #fff;
+        }
+        .sidebar a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+        }
+        .sidebar a:hover {
+            background-color: #E3CAA5;
+            color:black
+        }
+        .sidebar .submenu {
+            display: none;
+            background-color: #AD8B73;
+            padding-left: 20px;
+        }
+        .sidebar .submenu a {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+    </style>
+    <script>
+        function toggleSubmenu(id) {
+            var submenu = document.getElementById(id);
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</head>
+<body style="overflow:hidden">
+
+    <div class="sidebar d-none d-md-flex flex-column ">
+        <h2 class="text-center py-3">列表</h2>
+        <nav>
+<!--            <a href="#" onclick="toggleSubmenu('index-submenu')">帳號管理</a>-->
+<!--              <div class="submenu" id="index-submenu">-->
+<!--                <a href="#">使用者資料修改</a>-->
+<!--            </div>-->
+            <a href="#" onclick="toggleSubmenu('map-submenu')">圖資修改</a>
+            <div class="submenu" id="map-submenu">
+                <a href="{% url 'catCoffee' %}">貓咪咖啡廳</a>
+            </div>
+            <a href="#" onclick="toggleSubmenu('settings-submenu')">系統</a>
+            <div class="submenu" id="settings-submenu">
+                <a href="{% url 'announcement' %}">公告管理</a>
+               
+            </div>
+          
+        </nav>
+    </div>
+    <div class="content" style="height:100vh">
+        <div class="header" style="display:flex;flex-direction:row;justify-content: space-between;">
+            <h3 style="color: #FFA500; font-size: 50px;">貓咖地圖管理系統</h3>
+            <div><a href="{% url 'manage' %}" class="btn btn-secondary">首頁</a><a href="{% url 'map' %}" class="btn btn-secondary" style="margin:0 5px;">地圖</a><a href="{% url 'log_out' %}" class="btn btn-secondary">登出</a></div>
+        </div>
+      <div class="mt-4" style="overflow:auto; height:calc(100% - 150px);">
+            {% include template_name %}
+        </div>
+    </div>
+</body>
+</html>
