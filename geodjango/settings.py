@@ -15,7 +15,7 @@ import sys
 # from osgeo import gdal
 
 # 從環境變數中讀取 GDAL_LIBRARY_PATH
-GDAL_LIBRARY_PATH = r'D:\Users\qwepo\anaconda3\Library\bin\gdal.dll'
+# GDAL_LIBRARY_PATH = r'D:\Users\qwepo\anaconda3\Library\bin\gdal.dll'
 
 ## docker用須為系統變量
 # os.environ['GDAL_LIBRARY_PATH'] = '/opt/conda/envs/geoDjangoMapTest/lib/libgdal.so'
@@ -23,6 +23,11 @@ GDAL_LIBRARY_PATH = r'D:\Users\qwepo\anaconda3\Library\bin\gdal.dll'
 
 
 # GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH')
+
+#改直接把gdal dll放到專案
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent
+os.environ['GDAL_LIBRARY_PATH'] = str(BASE_DIR / 'gdal.dll')
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
