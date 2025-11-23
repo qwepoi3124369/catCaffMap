@@ -121,7 +121,7 @@ DATABASES = {
         "NAME": "catcoffee",  # 本地資料庫名稱
         "USER": "postgres",  # 通常是 postgres 作為本地資料庫的預設使用者
         "PASSWORD": "3124369",  # 你的 PostgreSQL 密碼
-        "HOST": "localhost",  # 本地資料庫的主機
+        "HOST": "192.168.0.242",  # 本地資料庫的主機
 # 'HOST': 'postgis',
 # 'HOST': 'catDB',
 
@@ -190,6 +190,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://192.168.3.20',
     'https://192.168.3.6',
     'https://geodjango.luckyciou.com',
-
+    'http://192.168.0.101',
 ]
 ALLOWED_HOSTS = ['*']
