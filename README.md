@@ -14,6 +14,7 @@
 6. 自建的登入機制（不是 Django 內建 admin 畫面），提供使用者登入與權限分級。
 7. 後台 CRUD 功能：管理貓咪咖啡廳與公告訊息。
 8. 提供 Docker 化部署，使用 uWSGI、Nginx，並示範搭配 Cloudflare Tunnel 暴露內網服務（或替換為其他反向代理）。
+9. 把Docker化鏡像部屬於K3S中
 
 ---
 
