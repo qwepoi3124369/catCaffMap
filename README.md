@@ -28,4 +28,4 @@
 
 ---
 
-詳細介紹:https://www.cake.me/portfolios/web-gis
+相關介紹圖片:https://www.cake.me/portfolios/web-gis
