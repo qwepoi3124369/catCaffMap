@@ -22,7 +22,7 @@
 
 * 後端：Django + GeoDjango
 * 資料庫：PostgreSQL + PostGIS
-* 前端：ArcGIS API for JavaScript (4.x)、HTML/CSS (RWD)、Bootstrap/Tailwind（選一）
+* 前端：ArcGIS API for JavaScript (4.x)、HTML/CSS (RWD)、Bootstrap
 * 認證：Django 自訂或使用 django-rest-framework + JWT（視實作）
 * 容器/部署：Docker, docker-compose, uWSGI, Nginx
 * 暴露通道：Cloudflare Tunnel（cloudflared）或其他反向代理
